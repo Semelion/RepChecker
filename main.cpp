@@ -17,7 +17,7 @@ class pdf2img{
 	        std::cerr << "couldn't read pdf\n";
 	    }
 
-	    std::cout << "pdf has " << mypdf->pages() << " pages\n";
+	    // std::cout << "pdf has " << mypdf->pages() << " pages\n";
 	    capacity_ = mypdf->pages();
 	    data_ = new cv::Mat [capacity_];
 
@@ -25,9 +25,9 @@ class pdf2img{
 			poppler::page* mypage = mypdf->create_page(i);
 		    poppler::page_renderer renderer;
 		    renderer.set_render_hint(poppler::page_renderer::text_antialiasing);
-		    poppler::image myimage = renderer.render_page(mypage,DPI,DPI);
+		    poppler::image myimage = renderer.render_page(mypage, DPI, DPI);
 
-		    std::cout << "created image of  " << myimage.width() << "x"<< myimage.height() << "\n";
+		    // std::cout << "created image of  " << myimage.width() << "x"<< myimage.height() << "\n";
 		    cv::Mat cvimg;
 		    if(myimage.format() == poppler::image::format_rgb24) {
 		        cv::Mat(myimage.height(),myimage.width(),CV_8UC3,myimage.data()).copyTo(cvimg);
@@ -59,7 +59,8 @@ int main(int argc, char* argv[]){
 	for(int i = 0; i < argc; i++){
 		std::cout << argv[i] << std::endl;
 	}
-	pdf2img images_from_pdf(argv[1], 300);
+
+	pdf2img images_from_pdf(argv[1], 100);
 
 	for(int i = 0; i < images_from_pdf.get_size(); i++){
 		imshow("Display window", images_from_pdf[i]);
