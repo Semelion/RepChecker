@@ -60,10 +60,13 @@ int main(int argc, char* argv[]){
 		std::cout << argv[i] << std::endl;
 	}
 
-	pdf2img images_from_pdf(argv[1], 100);
-
-	for(int i = 0; i < images_from_pdf.get_size(); i++){
-		imshow("Display window", images_from_pdf[i]);
-	    cv::waitKey(0);
-	}
+	pdf2img images_from_pdf(argv[1], 300);
+	imwrite("1.jpg", images_from_pdf[0]);
+	imwrite("2.jpg", images_from_pdf[1]);
+	imwrite("3.jpg", images_from_pdf[2]);
+	// for(int i = 0; i < images_from_pdf.get_size(); i++){
+	// 	imshow("Display window", images_from_pdf[i]);
+	// 	imwrite(str(i) + ".jpg", mages_from_pdf[i]);  
+	//     cv::waitKey(0);
+	// }
 }
