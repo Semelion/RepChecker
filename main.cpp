@@ -14,16 +14,16 @@ class pdf2img{
 	//(const std::string& filename,int DPI){
     	//poppler::document* mypdf = poppler::document::load_from_file(filename);
 
-	    if(mypdf == NULL) {
-	        std::cerr << "couldn't read pdf\n";
-	    }
+	    // if(mypdf == NULL) {
+	    //     std::cerr << "couldn't read pdf\n";
+	    // }
 
 	    // std::cout << "pdf has " << mypdf->pages() << " pages\n";
-	    capacity_ = mypdf->pages();
+	    capacity_ = mypdf.pages();
 	    data_ = new cv::Mat [capacity_];
 
-		for(int i = 0; i < mypdf->pages(); i++){
-			poppler::page* mypage = mypdf->create_page(i);
+		for(int i = 0; i < mypdf.pages(); i++){
+			poppler::page* mypage = mypdf.create_page(i);
 		    poppler::page_renderer renderer;
 		    renderer.set_render_hint(poppler::page_renderer::text_antialiasing);
 		    poppler::image myimage = renderer.render_page(mypage, DPI, DPI);
@@ -61,7 +61,11 @@ int main(int argc, char* argv[]){
 		std::cout << argv[i] << std::endl;
 	}
 
-	pdf2img images_from_pdf(argv[1], 300);
+	poppler::document* mypdf = poppler::document::load_from_file(argv[1]);
+    if(mypdf == NULL) {
+        std::cerr << "couldn't read pdf\n";
+    }
+	pdf2img images_from_pdf(mypdf, 300);
 	imwrite("1.jpg", images_from_pdf[0]);
 	imwrite("2.jpg", images_from_pdf[1]);
 	imwrite("3.jpg", images_from_pdf[2]);
