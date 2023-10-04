@@ -10,15 +10,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(RepChecker)
 
+add_subdirectory(lib)
+
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 find_package(PkgConfig)
 pkg_check_modules(POPPLER_CPP REQUIRED IMPORTED_TARGET poppler-cpp)
 
-
 add_executable(main main.cpp)
 target_link_libraries(main ${OpenCV_LIBS} PkgConfig::POPPLER_CPP)
+
 #target_link_libraries(main PRIVATE PkgConfig::POPPLER_CPP)
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test_docs DESTINATION .)

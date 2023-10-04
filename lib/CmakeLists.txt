@@ -1,0 +1,8 @@
+#cmake_minimum_required(VERSION 3.24)
+
+add_library(pdf2img pdf2img.h)
+
+#install(TARGETS pdf2img)
+
+set(CMAKE_CXX_STANDARD 20)
+

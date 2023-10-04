@@ -7,8 +7,8 @@
 #include <poppler-page-renderer.h>
 #include <poppler-image.h>
 
-#include "lib\pdf2img.h"
-
+#include "lib/pdf2img.h"
+//#include <pdf2img.h>
 int main(int argc, char* argv[]){
 	for(int i = 0; i < argc; i++){
 		std::cout << argv[i] << std::endl;

@@ -1,3 +1,6 @@
+#ifndef pdf2img_LIBRARY_H
+#define pdf2img_LIBRARY_H
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -54,3 +57,4 @@ private:
     ptrdiff_t capacity_ = 0;
 	cv::Mat* data_ = nullptr;
 };
+#endif
