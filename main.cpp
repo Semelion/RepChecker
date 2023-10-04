@@ -10,8 +10,9 @@
 //#include "lib\some_heck\some_check.h"
 class pdf2img{
 	public:
-    explicit pdf2img(const std::string& filename,int DPI){
-    	poppler::document* mypdf = poppler::document::load_from_file(filename);
+    explicit pdf2img(const poppler::document& mypdf, int DPI){
+	//(const std::string& filename,int DPI){
+    	//poppler::document* mypdf = poppler::document::load_from_file(filename);
 
 	    if(mypdf == NULL) {
 	        std::cerr << "couldn't read pdf\n";
