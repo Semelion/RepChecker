@@ -1,3 +1,12 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <opencv2/opencv.hpp>
+#include <poppler-document.h>
+#include <poppler-page.h>
+#include <poppler-page-renderer.h>
+#include <poppler-image.h>
+
 class pdf2img{
 	public:
     explicit pdf2img(const poppler::document* mypdf, int DPI){
