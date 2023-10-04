@@ -10,7 +10,7 @@
 //#include "lib\some_heck\some_check.h"
 class pdf2img{
 	public:
-    explicit pdf2img(const poppler::document& mypdf, int DPI){
+    explicit pdf2img(const poppler::document* mypdf, int DPI){
 	//(const std::string& filename,int DPI){
     	//poppler::document* mypdf = poppler::document::load_from_file(filename);
 
@@ -19,11 +19,11 @@ class pdf2img{
 	    // }
 
 	    // std::cout << "pdf has " << mypdf->pages() << " pages\n";
-	    capacity_ = mypdf.pages();
+	    capacity_ = mypdf->pages();
 	    data_ = new cv::Mat [capacity_];
 
-		for(int i = 0; i < mypdf.pages(); i++){
-			poppler::page* mypage = mypdf.create_page(i);
+		for(int i = 0; i < mypdf->pages(); i++){
+			poppler::page* mypage = mypdf->create_page(i);
 		    poppler::page_renderer renderer;
 		    renderer.set_render_hint(poppler::page_renderer::text_antialiasing);
 		    poppler::image myimage = renderer.render_page(mypage, DPI, DPI);
