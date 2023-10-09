@@ -10,13 +10,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(RepChecker)
 
-add_subdirectory(lib)
 
+find_package(Tesseract CONFIG REQUIRED)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 find_package(PkgConfig)
 pkg_check_modules(POPPLER_CPP REQUIRED IMPORTED_TARGET poppler-cpp)
+
+add_subdirectory(lib)
 
 add_executable(main main.cpp)
 target_link_libraries(main ${OpenCV_LIBS} PkgConfig::POPPLER_CPP)

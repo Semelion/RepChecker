@@ -1,3 +1,6 @@
+#ifndef TEXT_REC_HPP_04_10_2023
+#define TEXT_REC_HPP_04_10_2023
+
 #include <string>
 #include <fstream>
 
@@ -6,3 +9,5 @@
 #include <tesseract/baseapi.h>
 
 void RecognizeText(std::string& imPath);
+
+#endif
