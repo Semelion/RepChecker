@@ -6,9 +6,11 @@
 #include <poppler-page.h>
 #include <poppler-page-renderer.h>
 #include <poppler-image.h>
+#include <vector>
+#include <string>
 
-#include "lib/pdf2img/include/pdf2img/pdf2img.h"
-// #include <text_rec/text_rec.hpp>
+#include <pdf2img/pdf2img.h>
+#include <text_rec.hpp>
 //#include <pdf2img.h>
 int main(int argc, char* argv[]){
 	for(int i = 0; i < argc; i++){
@@ -23,6 +25,15 @@ int main(int argc, char* argv[]){
 	imwrite("1.jpg", images_from_pdf[0]);
 	imwrite("2.jpg", images_from_pdf[1]);
 	imwrite("3.jpg", images_from_pdf[2]);
+
+
+	// std::vector<poppler::font_info> v = mypdf->fonts();
+
+	// for(int i = 0; i < v.size(); i++){
+	// 	std::cout << v[i] << "\n";
+	// }
+
+
 	// for(int i = 0; i < images_from_pdf.get_size(); i++){
 	// 	imshow("Display window", images_from_pdf[i]);
 	// 	imwrite(str(i) + ".jpg", mages_from_pdf[i]);  

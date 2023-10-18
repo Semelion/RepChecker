@@ -21,7 +21,7 @@ pkg_check_modules(POPPLER_CPP REQUIRED IMPORTED_TARGET poppler-cpp)
 add_subdirectory(lib)
 
 add_executable(main main.cpp)
-target_link_libraries(main ${OpenCV_LIBS} PkgConfig::POPPLER_CPP)
+target_link_libraries(main ${OpenCV_LIBS} PkgConfig::POPPLER_CPP pdf2img text_recognition)
 
 #target_link_libraries(main PRIVATE PkgConfig::POPPLER_CPP)
 
