@@ -37,3 +37,4 @@ OUTPUT/
 bin/
 
 .vscode/
+.DS_Store
