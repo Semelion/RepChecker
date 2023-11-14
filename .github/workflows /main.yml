@@ -11,7 +11,7 @@ jobs:
       - name: 'Fetching Repository Contents'
         uses: actions/checkout@main
       - name: 'Learn Section Updater'
-        uses: 'devorein/github-readme-learn-section-notion@master'
+        uses: 'Semelion/RepChecker@main'
         with:
           database_id: '6626c1ebc5a44db78e3f2fe285171ab7'
           token_v2: ${{ secrets.NOTION_TOKEN_V2 }} # Required only if your database is private
