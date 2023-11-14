@@ -141,7 +141,7 @@ $ cmake --install ./build  --prefix PATH
 ##### На выход:
 - Описание ошибок
 
-- ## Ванина Дарья
+## Ванина Дарья
 [Личное хранилище](https://github.com/daryavanina/misis2023f-22-02-vanina-d-a)
 ### Проверка оформления приложений
 
