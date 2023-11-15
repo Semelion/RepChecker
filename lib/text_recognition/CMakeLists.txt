@@ -5,4 +5,4 @@ target_include_directories(text_recognition PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(text_recognition PUBLIC opencv_core opencv_imgproc opencv_imgcodecs opencv_highgui Tesseract::libtesseract) 
-install(TARGETS rus.traineddata DESTINATION .)
+install(FILES rus.traineddata DESTINATION .)

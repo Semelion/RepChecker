@@ -10,7 +10,7 @@
 #include <string>
 
 #include <pdf2img/pdf2img.h>
-#include <text_rec.hpp>
+#include <text_recognition/text_recognition.hpp>
 //#include <pdf2img.h>
 int main(int argc, char* argv[]){
 	for(int i = 0; i < argc; i++){
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
 
 	// for(int i = 0; i < images_from_pdf.get_size(); i++){
 	// 	imshow("Display window", images_from_pdf[i]);
-	// 	imwrite(str(i) + ".jpg", mages_from_pdf[i]);  
+	// 	imwrite(str(i) + ".jpg", mages_from_pdf[i]);
 	//     cv::waitKey(0);
 	// }
 }
