@@ -5,14 +5,19 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <cstddef>
+
 
 class CutRectangles{
 public:
     CutRectangles(const std::vector<cv::Mat>& images);
-    std::vector<std::vector<cv::Rect> > get_rectangles();
+    ~CutRectangles();
+    std::vector<std::vector<cv::Rect> > get_rectangles() noexcept; // returns rectangles from all pages
+    const std::vector<cv::Rect>& operator[](const ptrdiff_t ind) const; // returns rectangles by page index
+    ptrdiff_t ssize() const noexcept;
 private:
-    cv::Mat reducePageOy(const cv::Mat& image);
-    cv::Mat reducePageOx(const cv::Mat& image);
+    cv::Mat reducePageOy(const cv::Mat& image) noexcept;
+    cv::Mat reducePageOx(const cv::Mat& image) noexcept;
     std::vector<cv::Rect> pre_count_blocks(cv::Mat projection, int missingDimension, int projection_type, int page=-1); // projection: 1 - oy, 0 - ox
 
 private:

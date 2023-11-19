@@ -1,7 +1,13 @@
-#include <cut_rectangles/cut_rectangles.hpp>
+#include <rectangles/rectangles.hpp>
 
 CutRectangles::CutRectangles(const std::vector<cv::Mat>& images){
-    pages_ = images;
+    cv::Mat temp;
+    for(int ind = 0; ind < images.size(); ++ind){
+        images[ind].copyTo(temp);
+        pages_.push_back(temp);
+    }
+    ~temp;
+
     cv::Mat grayImage;
     for(int ind = 0; ind < pages_.size(); ++ind){
         cv::cvtColor(pages_[ind], grayImage, cv::COLOR_BGR2GRAY);
@@ -20,13 +26,13 @@ CutRectangles::CutRectangles(const std::vector<cv::Mat>& images){
     }
 }
 
-cv::Mat CutRectangles::reducePageOy(const cv::Mat &image){
+cv::Mat CutRectangles::reducePageOy(const cv::Mat &image) noexcept{
     cv::Mat projectionY;
     cv::reduce(image, projectionY, 1, cv::REDUCE_SUM, CV_32F);
     return projectionY;
 }
 
-cv::Mat CutRectangles::reducePageOx(const cv::Mat &image){
+cv::Mat CutRectangles::reducePageOx(const cv::Mat &image) noexcept{
     cv::Mat projectionX;
     cv::reduce(image, projectionX, 0, cv::REDUCE_SUM, CV_32F);
     return projectionX;
@@ -89,7 +95,7 @@ std::vector<cv::Rect> CutRectangles::pre_count_blocks(cv::Mat projection, int mi
         }
     }
     else if (projection_type == 0){
-        cv::Mat srcImage = pages_[page]; // Debug
+        // cv::Mat srcImage = pages_[page]; // Debug
         cv::Mat projectionX = projection;
 
         int max_projection_x = -1;
@@ -139,14 +145,30 @@ std::vector<cv::Rect> CutRectangles::pre_count_blocks(cv::Mat projection, int mi
         }
 
         rectangles.push_back(cv::Rect(textBoundsX[0], textBoundsX[textBoundsX.size() - 1]));
-        // cv::rectangle(srcImage, rectangles[0], DEBUG_COLOR); // Debug 
+        // cv::rectangle(srcImage, rectangles[0], DEBUG_COLOR); Debug
         // cv::imshow("Result", srcImage);
         // cv::waitKey(0);
     }
-
     return rectangles;
 }
 
-std::vector<std::vector<cv::Rect> > CutRectangles::get_rectangles(){
+std::vector<std::vector<cv::Rect> > CutRectangles::get_rectangles() noexcept{
     return rectangles_in_pages;
+}
+
+const std::vector<cv::Rect>& CutRectangles::operator[](ptrdiff_t ind) const{
+    if (0 <= ind && ind < rectangles_in_pages.size()){
+        return rectangles_in_pages[ind];
+    }
+    throw std::out_of_range("Index out of range");
+}
+
+ptrdiff_t CutRectangles::ssize() const noexcept{
+    return rectangles_in_pages.size();
+}
+
+CutRectangles::~CutRectangles(){
+    for(auto& page: pages_){
+        ~page;
+    }
 }
