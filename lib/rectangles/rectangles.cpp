@@ -1,13 +1,8 @@
 #include <rectangles/rectangles.hpp>
 
 CutRectangles::CutRectangles(const std::vector<cv::Mat>& images){
-    cv::Mat temp;
-    for(int ind = 0; ind < images.size(); ++ind){
-        images[ind].copyTo(temp);
-        pages_.push_back(temp);
-    }
-    ~temp;
-
+    pages_ = images;
+    
     cv::Mat grayImage;
     for(int ind = 0; ind < pages_.size(); ++ind){
         cv::cvtColor(pages_[ind], grayImage, cv::COLOR_BGR2GRAY);
@@ -20,7 +15,7 @@ CutRectangles::CutRectangles(const std::vector<cv::Mat>& images){
             current_page_blocks[rect_ind] = cv::Rect(cv::Point(currBlockOx.x, current_page_blocks[rect_ind].y), cv::Point(currBlockOx.x + currBlockOx.width, current_page_blocks[rect_ind].y + current_page_blocks[rect_ind].height));
             // cv::rectangle(pages_[ind], current_page_blocks[rect_ind], DEBUG_COLOR); // Debug
         }
-        // cv::imshow("Result", pages_[ind]); Debug
+        // cv::imshow("Result", pages_[ind]); // Debug
         // cv::waitKey(0);
         rectangles_in_pages.push_back(current_page_blocks);
     }
@@ -86,7 +81,7 @@ std::vector<cv::Rect> CutRectangles::pre_count_blocks(cv::Mat projection, int mi
                 textBoundsY.push_back(cv::Point(0, i));
             } else if (val == 0 && inTextY) {
                 inTextY = false;
-                textBoundsY.push_back(cv::Point(0, i));
+                textBoundsY.push_back(cv::Point(0, i - 1));
             }
         }
 
@@ -140,12 +135,12 @@ std::vector<cv::Rect> CutRectangles::pre_count_blocks(cv::Mat projection, int mi
                 textBoundsX.push_back(cv::Point(i, 0));
             } else if (val == 0 && inTextX) {
                 inTextX = false;
-                textBoundsX.push_back(cv::Point(i, 0));
+                textBoundsX.push_back(cv::Point(i - 1, 0));
             }
         }
 
         rectangles.push_back(cv::Rect(textBoundsX[0], textBoundsX[textBoundsX.size() - 1]));
-        // cv::rectangle(srcImage, rectangles[0], DEBUG_COLOR); Debug
+        // cv::rectangle(srcImage, rectangles[0], DEBUG_COLOR); // Debug
         // cv::imshow("Result", srcImage);
         // cv::waitKey(0);
     }
@@ -171,4 +166,12 @@ CutRectangles::~CutRectangles(){
     for(auto& page: pages_){
         ~page;
     }
+}
+
+void CutRectangles::imshow_with_rectangles(int page){
+    if (page < 0 || page >= pages_.size()){
+        throw "list out of range";
+    }
+    cv::imshow("Debug window", pages_[page]);
+    cv::waitKey(0);
 }

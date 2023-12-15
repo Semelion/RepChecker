@@ -15,6 +15,7 @@ public:
     std::vector<std::vector<cv::Rect> > get_rectangles() noexcept; // returns rectangles from all pages
     const std::vector<cv::Rect>& operator[](const ptrdiff_t ind) const; // returns rectangles by page index
     ptrdiff_t ssize() const noexcept;
+    void imshow_with_rectangles(int page);
 private:
     cv::Mat reducePageOy(const cv::Mat& image) noexcept;
     cv::Mat reducePageOx(const cv::Mat& image) noexcept;
@@ -22,7 +23,7 @@ private:
 
 private:
     cv::Scalar DEBUG_COLOR = cv::Scalar(0, 255, 0);
-    int RLSA_VALUE = 5;
+    int RLSA_VALUE = 15;
     std::vector<cv::Mat> pages_;
     std::vector<std::vector<cv::Rect> > rectangles_in_pages;
 };
