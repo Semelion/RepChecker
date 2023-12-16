@@ -4,4 +4,4 @@ target_include_directories(pdf2img PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_link_libraries(pdf2img PUBLIC opencv_core opencv_imgproc opencv_imgcodecs opencv_highgui PkgConfig::POPPLER_CPP) 
+target_link_libraries(pdf2img PUBLIC ${OpenCV_LIBS} PkgConfig::POPPLER_CPP) 

@@ -1,7 +1,7 @@
 #ifndef pdf2img_LIBRARY_H
 #define pdf2img_LIBRARY_H
 
-#include <iostream>
+//#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <opencv2/opencv.hpp>
