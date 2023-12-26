@@ -4,8 +4,8 @@
 
 #include "rectangles/rectangles.hpp"
 
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 enum class Label {
   text,
@@ -44,6 +44,8 @@ inline std::ostream& operator<<(std::ostream& ostrm, const Label& lbl) {
   }
   return ostrm;
 }
+
+
 class ClassifyRectangles {
   
   public:
@@ -59,7 +61,7 @@ class ClassifyRectangles {
     Label at(int i_page, int i_rect) const;
 
   private:
-    const double c1 = 0.8;
+    const double c1 = 0.7;
     const double c2 = 1.2;
     const double c3 = 0.95;
     const double c4 = 1.05;
@@ -82,4 +84,5 @@ class ClassifyRectangles {
 
   private:
     static std::vector<cv::Scalar> color_for_label;
+    static std::string LabelToStr(Label lbl);
 };  

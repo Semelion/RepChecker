@@ -12,12 +12,39 @@ std::vector<cv::Scalar> ClassifyRectangles::color_for_label{
   {255, 51, 255}
 };
 
+std::string ClassifyRectangles::LabelToStr(Label lbl) {
+  switch (lbl) {
+    case Label::text:
+     return "text";
+      break;
+    case Label::large_text:
+      return "large_text";
+      break;
+    case Label::small_text:
+      return "small_text";
+      break;
+    case Label::horizontal_line:
+      return "horizontal_line";
+      break;
+    case Label::vertical_line:
+      return "vertical_line";
+      break;
+    case Label::graphic:
+      return "graphic";
+      break;
+    case::Label::picture:
+      return "picture";
+    default:
+      break;
+  }
+};
+
 ClassifyRectangles::ClassifyRectangles(const std::vector<cv::Mat>& images, const CutRectangles& rectangles)
   : rectangles_ptr(&rectangles),
     pages(images) {
   std::vector<int> heights;
-  rectangles_types.resize(rectangles.ssize());
-  for (int i_page = 0; i_page < rectangles.ssize(); i_page += 1) {
+  rectangles_types.resize(images.size());
+  for (int i_page = 0; i_page < images.size(); i_page += 1) {
     for (int i_rect = 0; i_rect < rectangles[i_page].size(); i_rect += 1) {
       heights.push_back(rectangles[i_page][i_rect].height);
     }
@@ -34,13 +61,18 @@ ClassifyRectangles::ClassifyRectangles(const std::vector<cv::Mat>& images, const
     MeanBlocksHeight = static_cast<double>(heights[heights.size() / 2 - 1] + heights[heights.size() / 2]) / 2;
   }
 
-  for (int i_page = 0; i_page < rectangles.ssize(); i_page += 1) {
-    
-    cv::Mat gray_image;
+  #ifdef DEBUG
+    std::cout << "MeanBlocksHeight: " << MeanBlocksHeight << std::endl;
+    std::cout << "Usual text size is between: " << MeanBlocksHeight * c1 << " and " << MeanBlocksHeight * c2 << std::endl; 
+  #endif
+
+  cv::Mat gray_image;
+
+  cv::Mat black_and_white;
+
+  for (int i_page = 0; i_page < images.size(); i_page += 1) {
 
     cv::cvtColor(images[i_page], gray_image, cv::COLOR_BGR2GRAY);
-
-    cv::Mat black_and_white;
 
     cv::threshold(gray_image, black_and_white, 128, 255, cv::THRESH_BINARY);
 
@@ -157,13 +189,24 @@ int ClassifyRectangles::ColsWithBlackPixels(const cv::Mat& img_area) {
 
 void ClassifyRectangles::PrintPageWithClassifiedRect(ptrdiff_t i_page) const {
   if (i_page < 0 || i_page >= pages.size()) {
-    throw(std::out_of_range("page with whis index doesn't exist"));
+    throw(std::out_of_range("Page with this index doesn't exist"));
   }
   cv::Mat copy;
   pages[i_page].copyTo(copy);
   for (int i_rect = 0; i_rect < (*rectangles_ptr)[i_page].size(); i_rect += 1) {
+
     Label cur_label = rectangles_types[i_page][i_rect];
-    cv::rectangle(copy, (*rectangles_ptr)[i_page][i_rect], color_for_label[static_cast<int>(cur_label)], 3);
+    cv::Rect cur_rect = (*rectangles_ptr)[i_page][i_rect];
+
+    #ifdef DEBUG
+      cv::putText(copy, "(" + std::to_string(i_page) + ", " + std::to_string(i_rect) + ")", 
+        cv::Point(cur_rect.x - 120, cur_rect.y + 30), cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 0), 1);
+    #endif
+
+    cv::rectangle(copy,cur_rect, color_for_label[static_cast<int>(cur_label)], 3);
+    cv::putText(copy, LabelToStr(cur_label), cv::Point(cur_rect.x - 100, cur_rect.y), 
+    cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 0), 2);
+
   }
   cv::imshow("result_of_classification", copy);
   cv::waitKey(0);
@@ -171,7 +214,8 @@ void ClassifyRectangles::PrintPageWithClassifiedRect(ptrdiff_t i_page) const {
 
 Label ClassifyRectangles::at(int i_page, int i_rect) const {
   if (i_page >= rectangles_types.size() || i_page < 0 || i_rect > rectangles_types[i_page].size() || i_rect < 0) {
-    throw(std::out_of_range("wrong i_page or i_rect"));
+    throw(std::out_of_range("Wrong i_page or i_rect"));
   }
   return rectangles_types[i_page][i_rect];
-}
+};
+
