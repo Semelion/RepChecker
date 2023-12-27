@@ -7,6 +7,6 @@
 #include <opencv2/opencv.hpp>
 #include <pdf2img/pdf2img.h>
 
-std::vector<std::string> isFormat(pdf2img img);
+std::vector<std::string> isFormat(pdf2img img, double fault = 3, double dpi = 300);
 
 #endif

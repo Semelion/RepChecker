@@ -22,6 +22,7 @@
 #include <check_format.hpp>
 #include <rectangles/rectangles.hpp>
 #include <title_check/title_check.hpp>
+#include <indents.hpp>
 
 // bool check_centering_text(int x_left, int x_right, int sheet_width,
 // 	int dpi = 300, int admission = 100){
@@ -65,50 +66,62 @@ int main(int argc, char* argv[]){
 	pdf2img images_from_pdf(mypdf, 300);
 	//imwrite("1.jpg", images_from_pdf[0]);
 
-	// std::vector<std::string> isPages = isFormat(images_from_pdf);
-	// for (int i = 0; i < isPages.size(); i++) {
-	// 	std::cout << "page " << i << " format is " << isPages[i] << std::endl;
-	// }
-
-	std::vector<cv::Mat> doc;
-	for (int i = 0; i < images_from_pdf.get_size(); i++) {
-		doc.push_back(images_from_pdf[i]);
+	std::vector<std::string> isPages = isFormat(images_from_pdf);
+	for (int i = 0; i < isPages.size(); i++) {
+		std::cout << "page " << i + 1 << " format is " << isPages[i] << std::endl;
 	}
 
-	CutRectangles rectangles(doc);
+	std::cout << std::endl;
 
-	cv::Mat tempImage;
-	tempImage = doc[0];
-	std::vector<int> centering_blocks;
-	for(auto& i: rectangles[0]){
-			cv::rectangle(tempImage, i, cv::Scalar(0, 255, 0), 5);
-			std::cout << "C: " << check_centering_text(i.x, i.x + i.width, tempImage.cols, 300, 100)
-			<< " R: " << check_centering_right_text(i.x, i.x + i.width, tempImage.cols) << '\n';
-			if(check_centering_text(i.x, i.x + i.width, tempImage.cols))
-				centering_blocks.push_back(1);
-			else
-				centering_blocks.push_back(-1);
+	std::vector<std::vector<double>> imagesIndents = checkIndents(images_from_pdf);
+	for (int i = 0; i < imagesIndents.size(); i++) {
+		std::cout << "page " << i + 1 << " | ";
+		std::cout << "left indent = " << imagesIndents[i][0] << " | ";
+		std::cout << "right indent = " << imagesIndents[i][1] << " | ";
+		std::cout << "top indent = " << imagesIndents[i][2] << " | ";
+		std::cout << "bottom indent = " << imagesIndents[i][3] << " | ";
+		std::cout << std::endl;
+	}
 
-			cv::imshow("debug", tempImage);
-			cv::waitKey(0);
-	}
-	for(auto& i: centering_blocks)
-		std::cout << i << '\n';
-	std::cout << "_______________________________" << '\n';
-	std::cout << std::count(centering_blocks.begin(), centering_blocks.end(), -1) << '\n';
-	if(centering_blocks[0] == 1 && 1 == centering_blocks[1] &&
-		std::count(centering_blocks.begin(), centering_blocks.end(), -1) >= 4 &&
-		centering_blocks[centering_blocks.size() - 1] == 1 && centering_blocks[centering_blocks.size() - 2] == 1){
-			std::cout << "good title" << '\n';
-	}else{
-		std::cout << "wrong title" << '\n';
-	}
-	title_check ddd();
-	title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, 300,100);
-	std::cout << "______----_______" << '\n';
-	std::cout << checking_title.get_result() << '\n';
-	// cv::imshow("debug", tempImage);
-	cv::waitKey(0);
+	//std::vector<cv::Mat> doc;
+	//for (int i = 0; i < images_from_pdf.get_size(); i++) {
+	//	doc.push_back(images_from_pdf[i]);
+	//}
+
+	//CutRectangles rectangles(doc);
+
+	//cv::Mat tempImage;
+	//tempImage = doc[0];
+	//std::vector<int> centering_blocks;
+	//for(auto& i: rectangles[0]){
+	//		cv::rectangle(tempImage, i, cv::Scalar(0, 255, 0), 5);
+	//		std::cout << "C: " << check_centering_text(i.x, i.x + i.width, tempImage.cols, 300, 100)
+	//		<< " R: " << check_centering_right_text(i.x, i.x + i.width, tempImage.cols) << '\n';
+	//		if(check_centering_text(i.x, i.x + i.width, tempImage.cols))
+	//			centering_blocks.push_back(1);
+	//		else
+	//			centering_blocks.push_back(-1);
+
+	//		cv::imshow("debug", tempImage);
+	//		cv::waitKey(0);
+	//}
+	//for(auto& i: centering_blocks)
+	//	std::cout << i << '\n';
+	//std::cout << "_______________________________" << '\n';
+	//std::cout << std::count(centering_blocks.begin(), centering_blocks.end(), -1) << '\n';
+	//if(centering_blocks[0] == 1 && 1 == centering_blocks[1] &&
+	//	std::count(centering_blocks.begin(), centering_blocks.end(), -1) >= 4 &&
+	//	centering_blocks[centering_blocks.size() - 1] == 1 && centering_blocks[centering_blocks.size() - 2] == 1){
+	//		std::cout << "good title" << '\n';
+	//}else{
+	//	std::cout << "wrong title" << '\n';
+	//}
+	//title_check ddd();
+	//title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, 300,100);
+	//std::cout << "______----_______" << '\n';
+	//std::cout << checking_title.get_result() << '\n';
+	//// cv::imshow("debug", tempImage);
+	//cv::waitKey(0);
 
 	// for(int p = 0; p < rectangles.ssize(); ++p){
 	// 		cv::Mat tempImage;

@@ -1,29 +1,29 @@
 #include "include/check_format.hpp"
 
-std::vector<std::string> isFormat(pdf2img imgs) {
-	const int fault = 3;
+std::vector<std::string> isFormat(pdf2img imgs, double fault, double dpi) {
 	std::vector<std::string> formats;
+	double px_in_mm = dpi / 25.4;
 
 	for (int i = 0; i < imgs.get_size(); i++) {
-		if (abs(imgs[i].size().width - 1240) <= fault && abs(imgs[i].size().height - 1748) <= fault) {
+		if (abs(imgs[i].size().width - (105 * px_in_mm)) <= fault && abs(imgs[i].size().height - (148 * px_in_mm)) <= fault * px_in_mm) {
 			formats.push_back("A6");
 		}
-		else if (abs(imgs[i].size().width - 1748) <= fault && abs(imgs[i].size().height - 2480) <= fault) {
+		else if (abs(imgs[i].size().width - (148 * px_in_mm)) <= fault && abs(imgs[i].size().height - (210 * px_in_mm)) <= fault * px_in_mm) {
 			formats.push_back("A5");
 		}
-		else if (abs(imgs[i].size().width - 2480) <= fault && abs(imgs[i].size().height - 3508) <= fault) {
+		else if (abs(imgs[i].size().width - (210 * px_in_mm)) <= fault && abs(imgs[i].size().height - (297 * px_in_mm)) <= fault * px_in_mm) {
 			formats.push_back("A4");
 		}
-		else if (abs(imgs[i].size().width - 3508) <= fault && abs(imgs[i].size().height - 4961) <= fault) {
+		else if (abs(imgs[i].size().width - (297 * px_in_mm)) <= fault && abs(imgs[i].size().height - (420 * px_in_mm)) <= fault * px_in_mm) {
 			formats.push_back("A3");
 		}
-		else if (abs(imgs[i].size().width - 4961) <= fault && abs(imgs[i].size().height - 7016) <= fault) {
+		else if (abs(imgs[i].size().width - (420 * px_in_mm)) <= fault && abs(imgs[i].size().height - (594 * px_in_mm)) <= fault * px_in_mm) {
 			formats.push_back("A2");
 		}
-		else if (abs(imgs[i].size().width - 7016) <= fault && abs(imgs[i].size().height - 9933) <= fault) {
+		else if (abs(imgs[i].size().width - (594 * px_in_mm)) <= fault && abs(imgs[i].size().height - (841 * px_in_mm)) <= fault * px_in_mm) {
 			formats.push_back("A1");
 		}
-		else if (abs(imgs[i].size().width - 9933) <= fault && abs(imgs[i].size().height - 14043) <= fault) {
+		else if (abs(imgs[i].size().width - (841 * px_in_mm)) <= fault && abs(imgs[i].size().height - (1189 * px_in_mm)) <= fault * px_in_mm) {
 			formats.push_back("A0");
 		}
 		else {
