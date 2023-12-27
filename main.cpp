@@ -83,12 +83,12 @@ int main(int argc, char* argv[]){
 		std::cout << std::endl;
 	}
 
-	//std::vector<cv::Mat> doc;
-	//for (int i = 0; i < images_from_pdf.get_size(); i++) {
-	//	doc.push_back(images_from_pdf[i]);
-	//}
+	std::vector<cv::Mat> doc;
+	for (int i = 0; i < images_from_pdf.get_size(); i++) {
+		doc.push_back(images_from_pdf[i]);
+	}
 
-	//CutRectangles rectangles(doc);
+	CutRectangles rectangles(doc);
 
 	//cv::Mat tempImage;
 	//tempImage = doc[0];
@@ -117,9 +117,9 @@ int main(int argc, char* argv[]){
 	//	std::cout << "wrong title" << '\n';
 	//}
 	//title_check ddd();
-	//title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, 300,100);
-	//std::cout << "______----_______" << '\n';
-	//std::cout << checking_title.get_result() << '\n';
+	title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, 300,100);
+	std::cout << "______----_______" << '\n';
+	std::cout << checking_title.get_result() << '\n';
 	//// cv::imshow("debug", tempImage);
 	//cv::waitKey(0);
 

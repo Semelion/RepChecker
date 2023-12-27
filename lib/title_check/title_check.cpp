@@ -30,3 +30,31 @@ std::string title_check::get_result(){
 		  //std::cout << "wrong title" << '\n';
 	}
 }
+
+bool check_centering_text(const int& x_left, const int& x_right, const int& sheet_width,
+	const int& dpi, const int& admission ){
+	//dpi/25.4 = 1mm
+	//left 30 mm rigt 10 mm
+	// #if 0
+	// 	std::cout << "________________________________________" << '\n';
+	// 	std::cout << "x_left: " << x_left <<'\n';
+	// 	std::cout << "x_right: " << x_right <<'\n';
+	// 	std::cout << "sheet_width: " << sheet_width <<'\n';
+	// 	std::cout << "(x_left - (dpi/25.4)*30): " << (x_left - (dpi/25.4)*30) << '\n';
+	// 	std::cout << "(sheet_width - ((dpi/25.4)*10) - x_right): " << (sheet_width - ((dpi/25.4)*10) - x_right) << '\n';
+	// #endif
+
+	if( std::abs((x_left - (dpi/25.4)*30) - (sheet_width - ((dpi/25.4)*10) - x_right) ) < admission)
+		return true;
+	else
+		return false;
+}
+
+bool check_centering_right_text(const int& x_left, const int& x_right, const int& sheet_width,
+	const int& dpi, const int& admission){
+		//std::abs((x_left - (dpi/25.4)*30) - (sheet_width - ((dpi/25.4)*10) - x_right))
+		if(std::abs(sheet_width - ((dpi/25.4)*10) - x_right) < admission)
+			return true;
+		else
+			return false;
+}
