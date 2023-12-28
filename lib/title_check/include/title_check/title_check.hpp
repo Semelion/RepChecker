@@ -14,7 +14,8 @@ class title_check{
       const int& title_rows, const int& title_cols,const int& dpi = 300, const int& admission = 100);
     std::string get_result();
 private:
-  std::vector<int> centering_blocks;
+  //std::vector<int> centering_blocks;
+	std::vector<char> centering_blocks;
   // const std::vector<cv::Rect>& text_boxes;
   // const int& title_rows;
   // const int& title_cols;
