@@ -4,8 +4,8 @@ title_check::title_check(const std::vector<cv::Rect>& text_boxes,
   const int& title_rows, const int& title_cols,const int& dpi, const int& admission){
     for(auto& i: text_boxes){
       #if 1
-  			std::cout << "C: " << check_centering_text(i.x, i.x + i.width, title_cols, 300, 100)
-  			<< " R: " << check_centering_right_text(i.x, i.x + i.width, title_cols) << '\n';
+  			// std::cout << "C: " << check_centering_text(i.x, i.x + i.width, title_cols, 300, 100)
+  			// << " R: " << check_centering_right_text(i.x, i.x + i.width, title_cols) << '\n';
       #endif
 			if (check_centering_text(i.x, i.x + i.width, title_cols))
 				centering_blocks.push_back('c');
@@ -24,10 +24,10 @@ title_check::title_check(const std::vector<cv::Rect>& text_boxes,
 }
 
 std::string title_check::get_result(){
-  for(auto& i: centering_blocks)
-		std::cout << i << '\n';
-	std::cout << "_______________________________" << '\n';
-	std::cout << std::count(centering_blocks.begin(), centering_blocks.end(), 'c') << '\n';
+  // for(auto& i: centering_blocks)
+	// 	std::cout << i << '\n';
+	// std::cout << "_______________________________" << '\n';
+	// std::cout << std::count(centering_blocks.begin(), centering_blocks.end(), 'c') << '\n';
 	if (centering_blocks[centering_blocks.size() - 2] == 'r' &&
 		centering_blocks[centering_blocks.size() - 3] == 'r' &&
 		std::count(centering_blocks.begin(), centering_blocks.end(), 'c') == centering_blocks.size() - 2)
