@@ -73,15 +73,15 @@ int main(int argc, char* argv[]){
 
 	std::cout << std::endl;
 
-	std::vector<std::vector<double>> imagesIndents = checkIndents(images_from_pdf);
-	for (int i = 0; i < imagesIndents.size(); i++) {
-		std::cout << "page " << i + 1 << " | ";
-		std::cout << "left indent = " << imagesIndents[i][0] << " | ";
-		std::cout << "right indent = " << imagesIndents[i][1] << " | ";
-		std::cout << "top indent = " << imagesIndents[i][2] << " | ";
-		std::cout << "bottom indent = " << imagesIndents[i][3] << " | ";
-		std::cout << std::endl;
-	}
+	// std::vector<std::vector<double>> imagesIndents = checkIndents(images_from_pdf);
+	// for (int i = 0; i < imagesIndents.size(); i++) {
+	// 	std::cout << "page " << i + 1 << " | ";
+	// 	std::cout << "left indent = " << imagesIndents[i][0] << " | ";
+	// 	std::cout << "right indent = " << imagesIndents[i][1] << " | ";
+	// 	std::cout << "top indent = " << imagesIndents[i][2] << " | ";
+	// 	std::cout << "bottom indent = " << imagesIndents[i][3] << " | ";
+	// 	std::cout << std::endl;
+	// }
 
 	std::vector<cv::Mat> doc;
 	for (int i = 0; i < images_from_pdf.get_size(); i++) {
@@ -90,21 +90,21 @@ int main(int argc, char* argv[]){
 
 	CutRectangles rectangles(doc);
 
-	//cv::Mat tempImage;
-	//tempImage = doc[0];
-	//std::vector<int> centering_blocks;
-	//for(auto& i: rectangles[0]){
-	//		cv::rectangle(tempImage, i, cv::Scalar(0, 255, 0), 5);
-	//		std::cout << "C: " << check_centering_text(i.x, i.x + i.width, tempImage.cols, 300, 100)
-	//		<< " R: " << check_centering_right_text(i.x, i.x + i.width, tempImage.cols) << '\n';
-	//		if(check_centering_text(i.x, i.x + i.width, tempImage.cols))
-	//			centering_blocks.push_back(1);
-	//		else
-	//			centering_blocks.push_back(-1);
+	cv::Mat tempImage;
+	tempImage = doc[0];
+	std::vector<int> centering_blocks;
+	for(auto& i: rectangles[0]){
+			cv::rectangle(tempImage, i, cv::Scalar(0, 255, 0), 5);
+			std::cout << "C: " << check_centering_text(i.x, i.x + i.width, tempImage.cols, 300, 100)
+			<< " R: " << check_centering_right_text(i.x, i.x + i.width, tempImage.cols) << '\n';
+			if(check_centering_text(i.x, i.x + i.width, tempImage.cols))
+				centering_blocks.push_back(1);
+			else
+				centering_blocks.push_back(-1);
 
-	//		cv::imshow("debug", tempImage);
-	//		cv::waitKey(0);
-	//}
+			cv::imshow("debug", tempImage);
+			cv::waitKey(0);
+	}
 	//for(auto& i: centering_blocks)
 	//	std::cout << i << '\n';
 	//std::cout << "_______________________________" << '\n';
