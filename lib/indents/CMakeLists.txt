@@ -4,4 +4,4 @@ target_include_directories(indents PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_link_libraries(indents PUBLIC opencv_core opencv_imgproc opencv_imgcodecs opencv_highgui pdf2img) 
+target_link_libraries(indents PUBLIC opencv_core opencv_imgproc opencv_imgcodecs opencv_highgui pdf2img rectangles) 
