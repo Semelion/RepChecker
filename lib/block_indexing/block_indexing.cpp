@@ -3,7 +3,7 @@
 Block_indexing::Block_indexing(pdf2img& doc_imgs, CutRectangles& text_boxes){
   setlocale(LC_ALL,"ru_RU.UTF-8");
   for(int i = 0; i < doc_imgs.get_size(); i++){
-    for(int j = 0;j < text_boxes[i].size(); j++){
+    for(int j = 0;j < text_boxes[i].size()/3; j++){
         cv::Mat croppedImage = doc_imgs[i](text_boxes[i][j]);
         std::string rec = RecognizeText(croppedImage);
         // std::transform(rec.begin(), rec.end(), rec.begin(), std::tolower);
