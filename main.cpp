@@ -1,19 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <opencv2/opencv.hpp>
-#include <poppler-document.h>
-#include <poppler-page.h>
-#include <poppler-page-renderer.h>
-#include <poppler-image.h>
 #include <vector>
 #include <string>
 #include <cmath>
 #include <cfenv>
 #include <climits>
 
+#include <poppler-document.h>
+#include <poppler-page.h>
+#include <poppler-page-renderer.h>
+#include <poppler-image.h>
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
+#include <opencv2/opencv.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <nlohmann/json.hpp>
 
@@ -23,6 +23,7 @@
 #include <rectangles/rectangles.hpp>
 #include <title_check/title_check.hpp>
 #include <indents.hpp>
+#include <block_indexing/block_indexing.hpp>
 
 int main(int argc, char* argv[]){
 
@@ -43,9 +44,15 @@ int main(int argc, char* argv[]){
 	}
 	CutRectangles rectangles(doc);
 
+
 	nlohmann::json output;
 	std::string out_path = config["output_path"];
 	std::ofstream output_file(out_path);
+
+	//Индексирование основных частей
+	Block_indexing indexes_(images_from_pdf, rectangles);
+	nlohmann::json main_part_index = indexes_.get_indexing();
+	output.push_back(indexes_.get_errors());
 
 	//формат
 	{
