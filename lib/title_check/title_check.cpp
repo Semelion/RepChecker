@@ -1,39 +1,69 @@
 #include <title_check/title_check.hpp>
+//#include<C:\programms\sem3\projecto\RepChecker\lib\text_recognition\text_recognition.cpp>
 
 title_check::title_check(const std::vector<cv::Rect>& text_boxes,
-  const int& title_rows, const int& title_cols,const int& dpi, const int& admission){
-    for(auto& i: text_boxes){
-      #if 1
-  			// std::cout << "C: " << check_centering_text(i.x, i.x + i.width, title_cols, 300, 100)
-  			// << " R: " << check_centering_right_text(i.x, i.x + i.width, title_cols) << '\n';
-      #endif
-			if (check_centering_text(i.x, i.x + i.width, title_cols))
-				centering_blocks.push_back('c');
+	const int& title_rows, const int& title_cols, const int& dpi, const int& admission) {
+	
+	for (auto& i : text_boxes) {
+#if 1
+		// std::cout << "C: " << check_centering_text(i.x, i.x + i.width, title_cols, 300, 100)
+		// << " R: " << check_centering_right_text(i.x, i.x + i.width, title_cols) << '\n';
+#endif
+		if (check_centering_text(i.x, i.x + i.width, title_cols))
+			centering_blocks.append("c");
+		else {
+			if (check_centering_right_text(i.x, i.x + i.width, title_cols))
+				centering_blocks.append("r");
 			else {
-				if (check_centering_right_text(i.x, i.x + i.width, title_cols))
-					centering_blocks.push_back('r');
+				if (check_centering_left_text(i.x, i.x + i.width, title_cols))
+					centering_blocks.append("l");
 				else
-					centering_blocks.push_back('?');
+					centering_blocks.append("?");
 			}
-      /*if(check_centering_text(i.x, i.x + i.width, title_cols))
-      	centering_blocks.push_back(1);
-      else
-      	centering_blocks.push_back(-1);*/
-  	}
-
+		};		
+	}
 }
 
 std::string title_check::get_result(){
-  // for(auto& i: centering_blocks)
-	// 	std::cout << i << '\n';
-	// std::cout << "_______________________________" << '\n';
-	// std::cout << std::count(centering_blocks.begin(), centering_blocks.end(), 'c') << '\n';
-	if (centering_blocks[centering_blocks.size() - 2] == 'r' &&
-		centering_blocks[centering_blocks.size() - 3] == 'r' &&
-		std::count(centering_blocks.begin(), centering_blocks.end(), 'c') == centering_blocks.size() - 2)
-		return "good title";
+	bool flag = true;
+	std::string end = "";
+	end = centering_blocks.substr(centering_blocks.size() - 4, 4);
+	if (end != "rrcc" && end != "crrc" && end != "crcc" && end != "ccrc") {
+		flag = false;
+	}
+	else {
+		std::string begin = "";
+		begin = centering_blocks.substr(0, centering_blocks.size() - 4);
+		for (char& i : begin) {
+			if (i != 'c') {
+				flag = false;
+				break;
+			}
+		}
+	};
+	std::string answer = "";
+	for (int i = 0; i < centering_blocks.size();i++) {
+		answer += "alignment of ";
+		answer += std::to_string(i+1);
+		answer += " block:";
+		if (centering_blocks[i] == 'c')
+			answer += "center\n";
+		else {
+			if (centering_blocks[i] == 'r')
+				answer += "right\n";
+			else {
+				if (centering_blocks[i] == 'l')
+					answer += "left\n";
+				else
+					answer += "not found\n";
+			}
+		}
+	}
+	if (flag)
+		answer += "\ngood title";
 	else
-		return "wrong title, try to check indents, alignments or line spacing";
+		answer += "\nwrong title, try to check indents, alignments or line spacing";
+	return answer;
 }
 
 bool check_centering_text(const int& x_left, const int& x_right, const int& sheet_width,
@@ -50,4 +80,12 @@ bool check_centering_right_text(const int& x_left, const int& x_right, const int
 			return true;
 		else
 			return false;
+}
+
+bool check_centering_left_text(const int& x_left, const int& x_right, const int& sheet_width,
+	const int& dpi, const int& admission) {
+	if (std::abs(((dpi / 25.4) * 30) - x_left) < admission)
+		return true;
+	else
+		return false;
 }
