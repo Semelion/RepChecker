@@ -4,6 +4,7 @@ std::vector<std::vector<double>> checkIndents(pdf2img imgs, double dpi) {
 	std::vector<std::vector<double>> result;
 	std::vector<cv::Mat> vector_imgs;
 	double px_in_mm = dpi / 25.4;
+	double footer_size_part = 0.0675;
 
 	for (int i = 0; i < imgs.get_size(); i++) {
 		vector_imgs.push_back(imgs[i]);
@@ -16,6 +17,7 @@ std::vector<std::vector<double>> checkIndents(pdf2img imgs, double dpi) {
 		double maxIndentsRow2 = imgs[i].cols + 1;
 		double maxIndentsCol1 = imgs[i].rows + 1;
 		double maxIndentsCol2 = imgs[i].rows + 1;
+		bool is_was_footer_element = false;
 
 		for (auto& rect : rectangles[i]) {
 			if (maxIndentsRow1 > rect.x) {
@@ -24,6 +26,12 @@ std::vector<std::vector<double>> checkIndents(pdf2img imgs, double dpi) {
 
 			if (maxIndentsRow2 > (imgs[i].cols - 1) - (rect.x + rect.width)) {
 				maxIndentsRow2 = (imgs[i].cols - 1) - (rect.x + rect.width);
+			}
+
+			if (rect.y >= (imgs[i].rows - 1) * (1 - footer_size_part) && !is_was_footer_element) {
+				is_was_footer_element = true;
+
+				continue;
 			}
 
 			if (maxIndentsCol1 > rect.y) {
