@@ -60,9 +60,9 @@ std::string title_check::get_result(){
 		}
 	}
 	if (flag)
-		answer += "\ngood title";
+		answer += "\nThe title page corresponds to standart";
 	else
-		answer += "\nwrong title, try to check indents, alignments or line spacing";
+		answer += "\nThe title page is not corresponds to standart";
 	return answer;
 }
 
