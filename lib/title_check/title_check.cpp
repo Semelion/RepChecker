@@ -1,30 +1,29 @@
 #include <title_check/title_check.hpp>
-//#include<C:\programms\sem3\projecto\RepChecker\lib\text_recognition\text_recognition.cpp>
 
 title_check::title_check(const std::vector<cv::Rect>& text_boxes,
-	const int& title_rows, const int& title_cols, const int& dpi, const int& admission) {
-	
+	const int& title_rows, const int& title_cols, const int& admission, const int& dpi) {
+
 	for (auto& i : text_boxes) {
 #if 1
 		// std::cout << "C: " << check_centering_text(i.x, i.x + i.width, title_cols, 300, 100)
 		// << " R: " << check_centering_right_text(i.x, i.x + i.width, title_cols) << '\n';
 #endif
-		if (check_centering_text(i.x, i.x + i.width, title_cols))
+		if (check_centering_text(i.x, i.x + i.width, title_cols, admission))
 			centering_blocks.append("c");
 		else {
-			if (check_centering_right_text(i.x, i.x + i.width, title_cols))
+			if (check_centering_right_text(i.x, i.x + i.width, title_cols, admission))
 				centering_blocks.append("r");
 			else {
-				if (check_centering_left_text(i.x, i.x + i.width, title_cols))
+				if (check_centering_left_text(i.x, i.x + i.width, title_cols, admission))
 					centering_blocks.append("l");
 				else
 					centering_blocks.append("?");
 			}
-		};		
+		};
 	}
 }
 
-std::string title_check::get_result(){
+std::string title_check::get_result() {
 	bool flag = true;
 	std::string end = "";
 	end = centering_blocks.substr(centering_blocks.size() - 4, 4);
@@ -42,9 +41,9 @@ std::string title_check::get_result(){
 		}
 	};
 	std::string answer = "";
-	for (int i = 0; i < centering_blocks.size();i++) {
+	for (int i = 0; i < centering_blocks.size(); i++) {
 		answer += "alignment of ";
-		answer += std::to_string(i+1);
+		answer += std::to_string(i + 1);
 		answer += " block:";
 		if (centering_blocks[i] == 'c')
 			answer += "center\n";
@@ -60,30 +59,29 @@ std::string title_check::get_result(){
 		}
 	}
 	if (flag)
-		answer += "\nThe title page corresponds to standart";
+		answer += "\ngood title";
 	else
-		answer += "\nThe title page is not corresponds to standart";
+		answer += "\nwrong title, try to check indents, alignments or line spacing";
 	return answer;
 }
 
 bool check_centering_text(const int& x_left, const int& x_right, const int& sheet_width,
-	const int& dpi, const int& admission ){
-	if( std::abs((x_left - (dpi/25.4)*30) - (sheet_width - ((dpi/25.4)*10) - x_right) ) < admission)
+	const int& admission, const int& dpi) {
+	if (std::abs((x_left - (dpi / 25.4) * 30) - (sheet_width - ((dpi / 25.4) * 10) - x_right)) < admission)
+		return true;
+	else
+		return false;
+}
+bool check_centering_right_text(const int& x_left, const int& x_right, const int& sheet_width,
+	const int& admission, const int& dpi) {
+	if (std::abs(sheet_width - ((dpi / 25.4) * 10) - x_right) < admission)
 		return true;
 	else
 		return false;
 }
 
-bool check_centering_right_text(const int& x_left, const int& x_right, const int& sheet_width,
-	const int& dpi, const int& admission){
-		if(std::abs(sheet_width - ((dpi/25.4)*10) - x_right) < admission)
-			return true;
-		else
-			return false;
-}
-
 bool check_centering_left_text(const int& x_left, const int& x_right, const int& sheet_width,
-	const int& dpi, const int& admission) {
+	const int& admission, const int& dpi) {
 	if (std::abs(((dpi / 25.4) * 30) - x_left) < admission)
 		return true;
 	else
