@@ -27,7 +27,7 @@ public:
 		* @brief Проверка блока на выравнивание по середине
 		* @param x_left абсцисса левого края блока
 		* @param x_right абсцисса правого края блока
-		* @param sheet_width высота блока
+		* @param sheet_width ширина листа
 		* @param admission погрешность
 		* @param dpi разрешение
 		* @return true или false
