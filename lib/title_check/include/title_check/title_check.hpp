@@ -6,7 +6,6 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 #include <string>
-#include <Windows.h>
 
 /**
 * @brief Класс для проверки титульника по ГОСТу
