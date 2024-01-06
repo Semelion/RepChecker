@@ -1,4 +1,16 @@
 {
   "file_path": "test_docs/example.pdf",
-  "output_path" : "errors.json"
+  "output_path" : "errors.json",
+  "dpi" : 300,
+
+  "indents": {
+    "left" : 30,
+    "right" : 10,
+    "up" : 20,
+    "down" : 20,
+    "fault" : 5
+  },
+
+  "title_admission" : 100.0,
+  "format_fault" : 20
 }

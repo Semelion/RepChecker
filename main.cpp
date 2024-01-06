@@ -36,7 +36,8 @@ int main(int argc, char* argv[]){
 	if (mypdf == NULL) {
 		std::cerr << "couldn't read pdf\n";
 	}
-	pdf2img images_from_pdf(mypdf, 300);
+	int dpi = config["dpi"];
+	pdf2img images_from_pdf(mypdf, dpi);
 
 	std::vector<cv::Mat> doc;
 	for (int i = 0; i < images_from_pdf.get_size(); i++) {
@@ -55,41 +56,70 @@ int main(int argc, char* argv[]){
 	// nlohmann::json main_part_index = indexes_.get_indexing();
 	// output.push_back(indexes_.get_errors());
 
-	//формат
-	{
-		std::vector<std::string> isPages = isFormat(images_from_pdf);
-		std::vector<int> format_errors;
-		for (int i = 0; i < isPages.size(); i++) {
-			//std::cout << "page " << i + 1 << " format is " << isPages[i] << std::endl;
-			if("not found" == isPages[i]){
-				format_errors.push_back(i);
-			}
-		}
-		if(format_errors.size() > 0)
-			output["wrong format pages"] = format_errors;
-		else
-			output["wrong format pages"] = "all pages is good";
-
-	}
-
-	 // std::cout << output << std::endl;
-
-	//отступы
-	// std::vector<std::vector<double>> imagesIndents = checkIndents(images_from_pdf);
-	// for (int i = 0; i < imagesIndents.size(); i++) {
-	// 	std::cout << "page " << i + 1 << " | ";
-	// 	std::cout << "left indent = " << imagesIndents[i][0] << " | ";
-	// 	std::cout << "right indent = " << imagesIndents[i][1] << " | ";
-	// 	std::cout << "top indent = " << imagesIndents[i][2] << " | ";
-	// 	std::cout << "bottom indent = " << imagesIndents[i][3] << " | ";
-	// 	std::cout << std::endl;
-	// }
-
 	//титульник
-	double adm = std::stod(argv[2]);
-	title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, adm, 300);
+	double adm = config["title_admission"];
+	title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, adm, dpi);
 	output["title_check"] = checking_title.get_result();
 
 
-	output_file <<std::setw(4) << output << std::endl;
+	//формат
+	{
+	double fault = config["format_fault"];
+	std::vector<std::string> isPages = isFormat(images_from_pdf, fault, dpi);
+	std::vector<int> format_errors;
+	for (int i = 0; i < isPages.size(); i++) {
+		//std::cout << "page " << i + 1 << " format is " << isPages[i] << std::endl;
+		if("not found" == isPages[i]){
+			format_errors.push_back(i);
+		}
+	}
+	if(format_errors.size() > 0)
+		output["wrong format pages"] = format_errors;
+	else
+		output["wrong format pages"] = "all pages is good";
+	}
+
+	//отступы
+	{
+	std::vector<int> error_pages;
+	std::vector<std::vector<double>> imagesIndents = checkIndents(images_from_pdf);
+
+	int fault = config["indents"]["fault"];
+	int left_ind = config["indents"]["left"];
+	int right_ind  = config["indents"]["right"];
+	int up_ind  = config["indents"]["up"];
+	int down_ind  = config["indents"]["down"];
+
+	for (int i = 0; i < imagesIndents.size(); i++) {
+		// std::cout << "page " << i + 1 << " | ";
+		if ((abs(imagesIndents[i][0] - left_ind) <= fault || imagesIndents[i][0] >= left_ind) &&
+			(abs(imagesIndents[i][1] - right_ind) <= fault || imagesIndents[i][1] >= right_ind) &&
+			(abs(imagesIndents[i][2] - up_ind) <= fault || imagesIndents[i][2] >= up_ind) &&
+			(abs(imagesIndents[i][3] - down_ind) <= fault || imagesIndents[i][3] >= down_ind)) {
+			;
+			// std::cout << "left indent = " << imagesIndents[i][0] << " | ";
+			// std::cout << "right indent = " << imagesIndents[i][1] << " | ";
+			// std::cout << "top indent = " << imagesIndents[i][2] << " | ";
+			// std::cout << "bottom indent = " << imagesIndents[i][3] << " | ";
+			// std::cout << " is compliant with the standard" << std::endl;
+
+		}
+		else {
+			error_pages.push_back(i);
+			// std::cout << "left indent = " << imagesIndents[i][0] << " | ";
+			// std::cout << "right indent = " << imagesIndents[i][1] << " | ";
+			// std::cout << "top indent = " << imagesIndents[i][2] << " | ";
+			// std::cout << "bottom indent = " << imagesIndents[i][3] << " | ";
+			// std::cout << " is not compliant with the standard" << std::endl;
+		}
+	}
+
+	if(error_pages.size() > 0)
+		output["wrong indents pages"] = error_pages;
+	else
+		output["wrong indents pages"] = "all pages is good";
+
+	}
+
+	output_file << std::setw(4) << output << std::endl;
 }
