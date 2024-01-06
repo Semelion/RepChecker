@@ -85,10 +85,8 @@ int main(int argc, char* argv[]){
 	// }
 
 	//титульник
-
-	title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, 300,100);
-	// std::cout << "______----_______" << '\n';
-	// std::cout << checking_title.get_result() << '\n';
+	double adm = std::stod(argv[2]);
+	title_check checking_title(rectangles[0], images_from_pdf[0].rows, images_from_pdf[0].cols, adm, 300);
 	output["title_check"] = checking_title.get_result();
 
 
