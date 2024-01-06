@@ -50,9 +50,10 @@ int main(int argc, char* argv[]){
 	std::ofstream output_file(out_path);
 
 	//Индексирование основных частей
-	Block_indexing indexes_(images_from_pdf, rectangles);
-	nlohmann::json main_part_index = indexes_.get_indexing();
-	output.push_back(indexes_.get_errors());
+
+	// Block_indexing indexes_(images_from_pdf, rectangles);
+	// nlohmann::json main_part_index = indexes_.get_indexing();
+	// output.push_back(indexes_.get_errors());
 
 	//формат
 	{

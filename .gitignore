@@ -35,6 +35,8 @@
 build/
 OUTPUT/
 bin/
+docs/
+
 
 .vscode/
 .DS_Store

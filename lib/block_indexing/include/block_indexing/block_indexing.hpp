@@ -15,12 +15,28 @@
 #include <rectangles/rectangles.hpp>
 #include <text_recognition/text_recognition.hpp>
 
+/**
+  * @brief Класс для разбиения документа на основные блоки (титульный лист, содержание, основная часть, список литературы, дополнения)
+  */
 class Block_indexing{
 public:
-    Block_indexing(pdf2img& doc_imgs, CutRectangles& text_boxes);
+  /**
+    * @brief Разбиение документа на блоки и запись результата в JSON
+    * @param doc_imgs массив матриц со страницами
+    * doc_imgs text_boxes массив прямоугольников с блоками текста
+    */
+  Block_indexing(pdf2img& doc_imgs, CutRectangles& text_boxes);
 
-    nlohmann::json get_indexing();
-    nlohmann::json get_errors();
+  /**
+  	* @brief Получение разметки
+  	* @return JSON с информацией наличия блока, первой и последней страницами
+  	*/
+  nlohmann::json get_indexing();
+  /**
+  	* @brief Получение списка ошибок
+  	* @return JSON с информацией об ошибкав в документе
+  	*/
+  nlohmann::json get_errors();
 
 private:
   nlohmann::json indexes = nlohmann::json::parse(R"(
