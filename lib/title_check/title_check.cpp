@@ -59,20 +59,20 @@ std::string title_check::get_result() {
 		}
 	}
 	if (flag)
-		answer += "\ngood title";
+		answer += "\nThe title page corresponds to standart";
 	else
-		answer += "\nwrong title, try to check indents, alignments or line spacing";
+		answer += "\nThe title page is not corresponds to standart";
 	return answer;
 }
 
-bool check_centering_text(const int& x_left, const int& x_right, const int& sheet_width,
+bool title_check::check_centering_text(const int& x_left, const int& x_right, const int& sheet_width,
 	const int& admission, const int& dpi) {
 	if (std::abs((x_left - (dpi / 25.4) * 30) - (sheet_width - ((dpi / 25.4) * 10) - x_right)) < admission)
 		return true;
 	else
 		return false;
 }
-bool check_centering_right_text(const int& x_left, const int& x_right, const int& sheet_width,
+bool title_check::check_centering_right_text(const int& x_left, const int& x_right, const int& sheet_width,
 	const int& admission, const int& dpi) {
 	if (std::abs(sheet_width - ((dpi / 25.4) * 10) - x_right) < admission)
 		return true;
@@ -80,7 +80,7 @@ bool check_centering_right_text(const int& x_left, const int& x_right, const int
 		return false;
 }
 
-bool check_centering_left_text(const int& x_left, const int& x_right, const int& sheet_width,
+bool title_check::check_centering_left_text(const int& x_left, const int& x_right, const int& sheet_width,
 	const int& admission, const int& dpi) {
 	if (std::abs(((dpi / 25.4) * 30) - x_left) < admission)
 		return true;
