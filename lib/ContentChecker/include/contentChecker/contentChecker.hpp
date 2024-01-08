@@ -1,40 +1,35 @@
-#ifndef CONTENTCHECKER_HPP
-#define CONTENTCHECKER_HPP
+#ifndef CONTENT_CHECKER_HPP
+#define CONTENT_CHECKER_HPP
 
-#include <string>
-#include <utility>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <map>
 #include <vector>
+#include <cctype>
+#include <algorithm>
 
-namespace contentChecker {
+class StringUtilities {
+public:
+    static std::string readstr(std::istream& input = std::cin);
+    static bool isNumber(const std::string& s);
+    static std::string getNumberPart(const std::string& s);
+    static std::string parseName(std::string name);
+};
 
-    // Функция для чтения строки из входного потока
-    auto& readstr(std::string& s);
+class FileParser {
+private:
+    int line;
+    std::map<std::string, int> head;
+    std::vector<std::pair<std::string, int>> lst2;
 
-    // Функция для чтения строк и проверки номеров строк
-    bool read(std::string& s);
+public:
+    FileParser();
 
-    // Функция для получения правильного числа из строки
-    std::string get_right_number(std::string& line);
+    bool read(std::istream& input = std::cin);
+    bool parse(const std::string& line, std::pair<std::string, int>& res);
+    bool block(const std::string& s);
+    void processFile(const std::string& fileName, const std::string& logFileName);
+};
 
-    // Функция для проверки, является ли строка числом
-    bool isnumber(std::string s);
-
-    // Функция для получения числовой части строки
-    std::string get_number_part(std::string s);
-
-    // Функция для парсинга имени
-    std::string parse_name(std::string name);
-
-    // Функция для парсинга строки и возвращения пары (имя, номер)
-    bool parse(std::string line, std::pair<std::string, int>& res);
-
-    // Функция для проверки блока
-    bool block(std::string s);
-
-    // Основная функция для проверки файла
-    int checkFile(int argc, char* argv[]);
-
-} // namespace contentChecker
-
-#endif // CONTENTCHECKER_HPP
+#endif // CONTENT_CHECKER_HPP

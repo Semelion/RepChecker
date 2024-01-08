@@ -1,20 +1,16 @@
-#include "my_library.hpp"
-#include <iostream>
+#include "contentChecker.hpp"
 
-int main(int argc, char* argv[])
-{
-    // Проверка файла с использованием библиотеки
-    int result = MyLibrary::checkFile(argc, argv);
+int main(int argc, char* argv[]) {
+    FileParser fileParser;
 
-    // Обработка результата
-    if (result == 0)
-    {
-        std::cout << "Файл проверен успешно." << std::endl;
-    }
-    else
-    {
-        std::cerr << "Произошла ошибка при проверке файла." << std::endl;
+    if (argc < 2 || argc > 4) {
+        std::cout << "Usage: parser file.txt [log.txt]\n";
+        return 0;
     }
 
-    return result;
+    std::string logFileName = (argc == 3) ? argv[2] : "";
+
+    fileParser.processFile(argv[1], logFileName);
+
+    return 0;
 }
