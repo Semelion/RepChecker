@@ -146,6 +146,12 @@ ClassifyRectangles::ClassifyRectangles(const std::vector<cv::Mat>& images, const
   } 
 };
 
+ClassifyRectangles::~ClassifyRectangles() {
+  for (cv::Mat& page : pages) {
+    ~page;
+  }
+};
+
 int ClassifyRectangles::NumberOfBlackPixels(const cv::Mat& img_area) {
   return img_area.rows * img_area.cols - cv::countNonZero(img_area);
 };
@@ -205,7 +211,7 @@ void ClassifyRectangles::PrintPageWithClassifiedRect(ptrdiff_t i_page) const {
 
     cv::rectangle(copy,cur_rect, color_for_label[static_cast<int>(cur_label)], 3);
     cv::putText(copy, LabelToStr(cur_label), cv::Point(cur_rect.x - 100, cur_rect.y), 
-    cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 0), 2);
+    cv::FONT_HERSHEY_SIMPLEX, 2, cv::Scalar(0, 0, 0), 3);
 
   }
   cv::imshow("result_of_classification", copy);
