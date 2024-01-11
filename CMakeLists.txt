@@ -23,7 +23,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 add_subdirectory(lib)
 
 add_executable(main main.cpp)
-target_link_libraries(main ${OpenCV_LIBS} PkgConfig::POPPLER_CPP nlohmann_json::nlohmann_json pdf2img text_recognition check_format rectangles title_check indents block_indexing)
+target_link_libraries(main ${OpenCV_LIBS} PkgConfig::POPPLER_CPP nlohmann_json::nlohmann_json pdf2img text_recognition check_format rectangles title_check indents block_indexing intervales)
 
 #target_link_libraries(main PRIVATE PkgConfig::POPPLER_CPP)
 

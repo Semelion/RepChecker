@@ -14,29 +14,29 @@ class CutRectangles{
 public:
     /**
      * @brief Construct a new Cut Rectangles object
-     * 
+     *
      * @param images вектор изображений
      */
-    CutRectangles(std::vector<cv::Mat> images);
+    CutRectangles(const std::vector<cv::Mat>& images);
     CutRectangles(cv::Mat image);
     ~CutRectangles();
     /**
      * @brief Get the rectangles object
-     * 
+     *
      * @return std::vector<std::vector<cv::Rect> > вектор векторов прямоугольников для каждой страницы
      */
     std::vector<std::vector<cv::Rect> > get_rectangles() noexcept; // returns rectangles from all pages
     /**
      * @brief Возвращает прямоугольники по индексу страницы
-     * 
+     *
      * @param ind индекс страницы
      * @return const std::vector<cv::Rect>& вектор прямоугольников для указанной страницы
      */
     const std::vector<cv::Rect>& operator[](const ptrdiff_t ind) const; // returns rectangles by page index
     /**
      * @brief Возвращает кол-во страниц
-     * 
-     * @return ptrdiff_t 
+     *
+     * @return ptrdiff_t
      */
     ptrdiff_t ssize() const noexcept;
     void imshow_with_rectangles(int page);

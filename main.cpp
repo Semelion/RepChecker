@@ -24,6 +24,7 @@
 #include <title_check/title_check.hpp>
 #include <indents.hpp>
 #include <block_indexing/block_indexing.hpp>
+#include <intervales/intervales.hpp>
 
 int main(int argc, char* argv[]){
 
@@ -120,6 +121,24 @@ int main(int argc, char* argv[]){
 		output["wrong indents pages"] = "all pages is good";
 
 	}
+
+	// междустрочный интервал
+	{
+		Intervales intervales(doc);
+		if(1 == intervales.check_intervale())
+	  	output["intervales_in_doc"] = "OK";
+		else
+			output["intervales_in_doc"] = "NOT OK";
+		output["averade_interval"] = 		intervales.get_avg_interval();
+
+	std::vector<int> interv_med;
+	for(int i = 0; i < images_from_pdf.get_size(); i++){
+		interv_med.push_back(intervales.get_current_page_interval(i));
+	}
+	output["median_interval_of_every_pages"] = interv_med;
+
+	}
+
 
 	output_file << std::setw(4) << output << std::endl;
 }
