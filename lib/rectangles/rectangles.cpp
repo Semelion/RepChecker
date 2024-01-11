@@ -1,6 +1,6 @@
 #include <rectangles/rectangles.hpp>
 
-CutRectangles::CutRectangles(const std::vector<cv::Mat>& images){
+CutRectangles::CutRectangles(std::vector<cv::Mat> images){
     pages_ = images;
     
     cv::Mat grayImage;
