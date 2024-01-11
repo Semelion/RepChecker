@@ -17,7 +17,7 @@ public:
      *
      * @param images вектор изображений
      */
-    CutRectangles(const std::vector<cv::Mat>& images);
+    CutRectangles(std::vector<cv::Mat> images);
     CutRectangles(cv::Mat image);
     ~CutRectangles();
     /**
